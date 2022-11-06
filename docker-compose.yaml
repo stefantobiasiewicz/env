@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: mosquitto
+    volumes:
+      - ./mqtt/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - ./mqtt/mosquitto.passwd:/mosquitto/config/mosquitto.passwd
+      - ./mqtt/log/:/mosquitto/log/
+      - ./mqtt/data:/mosquitto/data
+    ports:
+      - 1883:1883
+      - 9001:9001
+
+  database:
+    image: postgres:latest
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    volumes:
+      - ./postgres/create-databases.sh:/docker-entrypoint-initdb.d/create-databases.sh
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      DATABASES: cloud_iot cloud_auth
