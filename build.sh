@@ -3,6 +3,9 @@
 echo Building Cloud-iot
 cd ../terra_cloud_iot
 pwd
+
+git pull
+
 mvn clean package -P service -DskipTests
 sudo docker rmi -f cloud_iot_image
 sudo docker build -t cloud_iot_image .
