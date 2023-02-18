@@ -1,4 +1,4 @@
-version: '3'
+version: '3.9'
 
 services:
   mosquitto:
@@ -10,9 +10,10 @@ services:
       - ./mqtt/log/:/mosquitto/log/
       - ./mqtt/data:/mosquitto/data
     ports:
-      - 1883:1883
-      - 9001:9001
-
+      - "1883:1883"
+    networks:
+      enviroment:
+        ipv4_address: 172.20.0.20
   database:
     image: postgres:latest
     container_name: postgres
@@ -21,7 +22,58 @@ services:
     restart: unless-stopped
     volumes:
       - ./postgres/create-databases.sh:/docker-entrypoint-initdb.d/create-databases.sh
+      - ./postgres/data:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       DATABASES: cloud_iot cloud_auth
+    networks:
+      enviroment:
+        ipv4_address: 172.20.0.10
+  cloud_iot:
+    image: cloud_iot_image:latest
+    container_name: cloud_iot
+    ports:
+      - "9000:9000"
+    depends_on:
+      - mosquitto
+      - database
+    environment:
+      POSTGRES_URL: jdbc:postgresql://postgres:5432/cloud_iot
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      MQTT_BROKER: tcp://mosquitto:1883
+      MQTT_USER: service
+      MQTT_PASSWORD: master
+      MQTT_CLIENT_ID: iot_service
+    networks:
+      enviroment:
+        ipv4_address: 172.20.0.30
+  cloud_iot_simulator:
+    image: cloud_iot_simulator_image:latest
+    container_name: cloud_iot_simulator
+    ports:
+      - "9060:9060"
+    depends_on:
+      - mosquitto
+      - cloud_iot
+    environment:
+      IOT_BACKEND: http://172.20.0.30:9000
+      MQTT_BROKER: tcp://mosquitto:1883
+      MQTT_USER: service
+      MQTT_PASSWORD: master
+      MQTT_CLIENT_ID: iot_sim
+      EXAMPLE_DEVICES: /application/resource/excample_device_list.json
+      STATE_FILE: /application/resource
+    volumes:
+      - ./app/cloud_iot_sim:/application/resource
+    networks:
+      enviroment:
+        ipv4_address: 172.20.0.40
+networks:
+  enviroment:
+    driver: 'bridge'
+    ipam:
+      config:
+        - subnet: "172.20.0.0/24"
+          gateway: "172.20.0.1"
