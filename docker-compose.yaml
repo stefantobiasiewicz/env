@@ -70,6 +70,20 @@ services:
     networks:
       enviroment:
         ipv4_address: 172.20.0.40
+  cloud_auth:
+    image: cloud_auth_image:latest
+    container_name: cloud_auth
+    ports:
+      - "10000:10000"
+    depends_on:
+      - database
+    environment:
+      POSTGRES_URL: jdbc:postgresql://postgres:5432/cloud_auth
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    networks:
+      enviroment:
+        ipv4_address: 172.20.0.50
 networks:
   enviroment:
     driver: 'bridge'
