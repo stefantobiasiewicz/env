@@ -5,4 +5,4 @@ pwd
 
 git pull
 
-cp -R Tai-sim-frontend/dist /var/www/html/sim-frontend
+sudo cp -R Tai-sim-frontend/dist /var/www/html/sim-frontend
