@@ -46,6 +46,7 @@ services:
       MQTT_USER: service
       MQTT_PASSWORD: master
       MQTT_CLIENT_ID: iot_service
+      LOGGING_LEVEL: INFO
     networks:
       enviroment:
         ipv4_address: 172.20.0.30
