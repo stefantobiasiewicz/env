@@ -7,3 +7,7 @@ git pull
 
 cd Tai-sim-frontend
 sudo cp -R dist /var/www/html/sim-frontend
+
+echo Restarting nginx
+sudo systemctl restart nginx
+
