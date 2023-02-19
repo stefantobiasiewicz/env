@@ -60,7 +60,7 @@ services:
       - mosquitto
       - cloud_iot
     environment:
-      IOT_BACKEND: http://172.20.0.30:9000
+      IOT_BACKEND: https://172.20.0.30:9000
       MQTT_BROKER: tcp://mosquitto:1883
       MQTT_USER: service
       MQTT_PASSWORD: master
