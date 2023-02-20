@@ -6,5 +6,5 @@ sudo cp nginx/simulator.conf /etc/nginx/conf.d/simulator.conf
 
 echo Copying ssl keys
 sudo mkdir -p /etc/nginx/ssl
-sudo cp -r nginx/ssl/www.tai.pl.csr /etc/nginx/ssl/www.tai.pl.csr
-sudo cp -r nginx/ssl/www.tai.pl.key /etc/nginx/ssl/www.tai.pl.key
+sudo cp -r nginx/ssl/nginx-selfsigned.crt /etc/nginx/ssl/nginx-selfsigned.crt
+sudo cp -r nginx/ssl/nginx-selfsigned.key /etc/nginx/ssl/nginx-selfsigned.key
