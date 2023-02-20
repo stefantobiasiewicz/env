@@ -1,2 +1,4 @@
 mqtt/log
 mqtt/data
+postgres/data
+app/cloud_iot_sim/config.dat
