@@ -18,7 +18,7 @@ services:
     image: postgres:latest
     container_name: postgres
     ports:
-      - "35432:5432"
+      - "5432:35432"
     restart: unless-stopped
     volumes:
       - ./postgres/create-databases.sh:/docker-entrypoint-initdb.d/create-databases.sh
