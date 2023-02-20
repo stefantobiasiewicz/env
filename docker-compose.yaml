@@ -18,7 +18,7 @@ services:
     image: postgres:latest
     container_name: postgres
     ports:
-      - "5432:35432"
+      - "35432:5432"
     restart: unless-stopped
     volumes:
       - ./postgres/create-databases.sh:/docker-entrypoint-initdb.d/create-databases.sh
@@ -39,7 +39,7 @@ services:
       - mosquitto
       - database
     environment:
-      POSTGRES_URL: jdbc:postgresql://postgres:35432/cloud_iot
+      POSTGRES_URL: jdbc:postgresql://postgres:5432/cloud_iot
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       MQTT_BROKER: tcp://mosquitto:1883
@@ -80,7 +80,7 @@ services:
     depends_on:
       - database
     environment:
-      POSTGRES_URL: jdbc:postgresql://postgres:35432/cloud_auth
+      POSTGRES_URL: jdbc:postgresql://postgres:5432/cloud_auth
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       DLL_AUTO: update
