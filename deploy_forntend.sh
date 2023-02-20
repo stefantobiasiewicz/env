@@ -11,7 +11,7 @@ sudo cp -R dist /var/www/html/sim-frontend
 
 
 echo Pulling frontend
-cd ../terra_web
+cd ../../terra_web
 pwd
 
 git pull
